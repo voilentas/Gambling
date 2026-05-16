@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<!-- saved from url=(0036)http://localhost:8000/faq_fixed.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style>
+    
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>FAQ (static mock)</title>
+    <style>
+      :root{
+        --border:rgba(255,255,255,.08);
+        --text:rgba(255,255,255,.92);
+        --muted:rgba(255,255,255,.60);
+        --muted2:rgba(255,255,255,.42);
+        --green:#27c46b;
+        --orange:#ea7b2e;
+        --orange2:#c96020;
+        --shadow:0 16px 36px rgba(0,0,0,.45);
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{
+        margin:0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+        background:#05070a;
+        color:var(--text);
+        overflow:hidden;
+        position:relative;
+      }
+      body::before{
+        content:"";
+        position:fixed;
+        inset:0;
+        background: url("./assets/bg.jpg") center/cover no-repeat;
+        filter: blur(12px) brightness(0.45);
+        transform: scale(1.06);
+        z-index:-2;
+      }
+      body::after{
+        content:"";
+        position:fixed;
+        inset:0;
+        background:
+          radial-gradient(1200px 700px at 55% 42%, rgba(255,255,255,.06), rgba(255,255,255,0) 55%),
+          radial-gradient(900px 500px at 65% 58%, rgba(234,123,46,.18), rgba(234,123,46,0) 55%),
+          linear-gradient(180deg, rgba(5,7,10,.65), rgba(7,10,15,.88) 55%, rgba(6,8,11,.92));
+        z-index:-1;
+      }
+      .topbar{
+        position:sticky;top:0;z-index:10;height:56px;display:flex;align-items:center;
+        border-bottom:1px solid var(--border);
+        background: rgba(7,10,15,.85);
+        backdrop-filter: blur(10px);
+      }
+      .topbar .inner{width:100%;max-width:none;margin:0;padding:0 10px;display:flex;align-items:center;gap:18px}
+      .brand{display:flex;align-items:center;user-select:none;white-space:nowrap}
+      .brand img{height:28px;width:auto;display:block;object-fit:contain;filter: drop-shadow(0 2px 10px rgba(0,0,0,.55))}
+      @media (min-width: 768px){ .brand img{height:44px} }
+      .nav{display:flex;align-items:center;gap:18px;font-size:13px;color:var(--muted);flex:1;overflow:hidden}
+      .nav a{color:inherit;text-decoration:none;padding:6px 2px}
+      .nav a.active{color:var(--text)}
+      .nav a:hover{color:rgba(255,255,255,.80)}
+      .actions{display:flex;align-items:center;gap:10px}
+      .btn{height:28px;padding:0 12px;border-radius:999px;border:1px solid transparent;display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;cursor:pointer;user-select:none}
+      .btn.green{background: rgba(39,196,107,.95);color:#07120b;box-shadow:0 10px 22px rgba(39,196,107,.18)}
+      .btn.orange{background: linear-gradient(135deg, var(--orange), var(--orange2));color:#fff;box-shadow:0 10px 22px rgba(234,123,46,.18)}
+      .rbx{width:14px;height:14px;display:inline-block}
+      .rbx svg{width:14px;height:14px;display:block}
+
+      .layout{height: calc(100vh - 56px);display:flex;gap:14px;padding:12px 12px 14px}
+      .main{flex:1;border:1px solid var(--border);border-radius: 12px;background: radial-gradient(900px 500px at 45% 55%, rgba(255,255,255,.06), rgba(255,255,255,0) 55%), linear-gradient(180deg, rgba(10,14,18,.88), rgba(8,10,13,.82));box-shadow: var(--shadow);overflow:auto}
+      .mainInner{max-width:860px;margin:0 auto;padding:26px 18px 28px;display:flex;flex-direction:column;gap:14px}
+
+      /* Hero */
+      .hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
+      .heroTitle{margin:0;font-size:28px;font-weight:950;letter-spacing:.2px}
+      .heroSub{margin:0;max-width:680px;color:rgba(255,255,255,.55);font-size:12px;line-height:1.35}
+
+      /* Category pills */
+      .catWrap{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:6px}
+      .catRow{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+      .catBtn{
+        border:1px solid rgba(255,255,255,.10);
+        background: rgba(0,0,0,.18);
+        color:rgba(255,255,255,.72);
+        font-size:11px;
+        font-weight:900;
+        padding:6px 10px;
+        border-radius:999px;
+        cursor:pointer;
+        user-select:none;
+      }
+      .catBtn:hover{background: rgba(255,255,255,.04)}
+      .catBtn.active{
+        background: rgba(255,255,255,.06);
+        color:rgba(255,255,255,.86);
+      }
+      .catBtn.accent{
+        border-color: rgba(234,123,46,.35);
+        background: rgba(234,123,46,.12);
+        color:rgba(255,255,255,.92);
+      }
+
+      /* Notice */
+      .notice{
+        margin-top:10px;
+        border:1px solid rgba(255,255,255,.10);
+        background: rgba(0,0,0,.22);
+        border-radius: 12px;
+        padding:12px 14px;
+        display:flex;
+        gap:10px;
+        align-items:flex-start;
+      }
+      .noticeIcon{
+        width:18px;height:18px;border-radius:6px;
+        border:1px solid rgba(234,123,46,.25);
+        background: rgba(234,123,46,.14);
+        display:grid;place-items:center;
+        color:rgba(255,255,255,.88);
+        flex:0 0 auto;
+        margin-top:1px;
+        font-size:12px;
+        font-weight:900;
+      }
+      .notice b{color:rgba(255,255,255,.86)}
+      .notice p{margin:0;color:rgba(255,255,255,.55);font-size:11px;line-height:1.45}
+      .notice a{color:#ff9b3b;text-decoration:none;font-weight:900}
+
+      /* Sections + accordion */
+      .section{
+        border:1px solid rgba(255,255,255,.10);
+        background: rgba(255,255,255,.03);
+        border-radius: 14px;
+        overflow:hidden;
+      }
+      .sectionHead{
+        padding:12px 14px;
+        display:flex;
+        gap:10px;
+        align-items:center;
+        border-bottom:1px solid rgba(255,255,255,.08);
+        background: rgba(0,0,0,.12);
+      }
+      .sectionDot{
+        width:18px;height:18px;border-radius:999px;
+        border:1px solid rgba(234,123,46,.25);
+        background: rgba(234,123,46,.14);
+        display:grid;place-items:center;
+        color:rgba(255,255,255,.88);
+        font-weight:950;
+        font-size:12px;
+      }
+      .sectionTitle{
+        font-size:11px;
+        font-weight:950;
+        letter-spacing:.12em;
+        text-transform:uppercase;
+        color:rgba(255,255,255,.75);
+      }
+      details.qa{
+        border-bottom:1px solid rgba(255,255,255,.07);
+        background: transparent;
+        padding:0;
+      }
+      details.qa:last-child{border-bottom:none}
+      details.qa summary{
+        list-style:none;
+        cursor:pointer;
+        padding:12px 14px;
+        font-weight:800;
+        color:rgba(255,255,255,.80);
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:10px;
+      }
+      details.qa summary::-webkit-details-marker{display:none}
+      details.qa summary::after{
+        content:"˅";
+        color:rgba(255,255,255,.45);
+        font-weight:900;
+        transform: translateY(-1px);
+      }
+      details.qa[open] summary{color:rgba(255,255,255,.92)}
+      details.qa[open] summary::after{content:"˄"}
+      details.qa .answer{
+        padding:0 14px 12px;
+        color:rgba(255,255,255,.55);
+        font-size:12px;
+        line-height:1.45;
+      }
+
+      /* Smooth anchor spacing */
+      section.section{scroll-margin-top: 78px;}
+
+      @media (max-width: 720px){ .nav{display:none;} }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="inner">
+        <a class="brand" aria-label="Beancan.gg" href="http://localhost:8000/coinflip_fixed.html"><img src="./FAQ (static mock)_files/logo.webp" alt="Beancan.gg"></a>
+        <nav class="nav" aria-label="Primary">
+          <a href="http://localhost:8000/coinflip_fixed.html">Coinflip</a>
+          <a href="http://localhost:8000/jackpot_fixed.html?tier=low">Jackpot Low</a>
+          <a href="http://localhost:8000/jackpot_fixed.html?tier=high">Jackpot High</a>
+          <a href="http://localhost:8000/upgrader_fixed.html">Upgrader</a>
+          <a href="http://localhost:8000/bang_fixed.html">Bang</a>
+          <a href="http://localhost:8000/affiliates_fixed.html" style="opacity:.75">Affiliates</a>
+          <a class="active" href="http://localhost:8000/faq_fixed.html">FAQ</a>
+          <a href="http://localhost:8000/leaderboard_fixed.html" style="opacity:.75">Leaderboard</a>
+        </nav>
+        <div class="actions">
+          <button class="btn green" type="button">Free Coinflip</button>
+          <button class="btn orange" type="button" aria-label="Sign in">
+            <span class="rbx" aria-hidden="true">
+              <svg viewBox="0 0 100 100" fill="none">
+                <rect x="22" y="22" width="56" height="56" transform="rotate(45 50 50)" fill="rgba(255,255,255,.92)"></rect>
+                <rect x="44" y="44" width="12" height="12" transform="rotate(45 50 50)" fill="rgba(234,123,46,.95)"></rect>
+              </svg>
+            </span>
+            Sign in
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <main class="main">
+        <div class="mainInner">
+          <div class="hero">
+            <h1 class="heroTitle">FAQ, Terms &amp; Privacy</h1>
+            <p class="heroSub">Everything you need to know about Beancan.gg — how it works, your rights, and how we operate.</p>
+
+            <div class="catWrap" aria-label="Categories">
+              <div class="catRow">
+                <button class="catBtn active" type="button" data-target="about">About Beancan.gg</button>
+                <button class="catBtn" type="button" data-target="getting-started">Getting Started</button>
+                <button class="catBtn" type="button" data-target="games">Games &amp; Gameplay</button>
+                <button class="catBtn" type="button" data-target="provably-fair">Provably Fair System</button>
+                <button class="catBtn" type="button" data-target="deposits">Deposits &amp; Withdrawals</button>
+              </div>
+              <div class="catRow">
+                <button class="catBtn" type="button" data-target="account-security">Account &amp; Security</button>
+                <button class="catBtn" type="button" data-target="legal">Legal &amp; Responsible Gaming</button>
+                <button class="catBtn" type="button" data-target="support">Support &amp; Disputes</button>
+              </div>
+              <div class="catRow">
+                <button class="catBtn accent" type="button" data-target="terms">Terms of Service</button>
+                <button class="catBtn accent" type="button" data-target="privacy">Privacy Policy</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="notice" role="note" aria-label="Important notice">
+            <div class="noticeIcon" aria-hidden="true">!</div>
+            <p>
+              <b>Important notice:</b> Beancan.gg is a virtual item website operated by Beancan Entertainment Ltd. This platform is intended for users aged 18 and over. All item values are Steam Community Market reference prices. Steam does not provide a direct item-to-cash conversion — no monetary return is guaranteed for any item on this platform. If you or someone you know may have a problem with gaming, please visit <a href="http://localhost:8000/faq_fixed.html#" onclick="return false;">GambleAware.org</a>.
+            </p>
+          </div>
+
+          <section class="section" id="about" aria-label="About Beancan.gg">
+            <div class="sectionHead">
+              <div class="sectionDot" aria-hidden="true">•</div>
+              <div class="sectionTitle">About Beancan.gg</div>
+            </div>
+            <details class="qa">
+              <summary>What is Beancan.gg?</summary>
+              <div class="answer">Beancan.gg is an online gaming platform where you can participate in game modes like Coinflip, Jackpot, and Upgrader using virtual items. The platform is designed for a fast, modern experience with transparent outcomes and a focus on community rewards.</div>
+            </details>
+            <details class="qa">
+              <summary>Is Beancan.gg free to play?</summary>
+              <div class="answer">Some features and promotions (such as giveaways or limited free plays) may be available. However, most game modes require you to have a balance or deposit items/credit to participate.</div>
+            </details>
+            <details class="qa">
+              <summary>Is Beancan.gg affiliated with Valve Corporation or Facepunch Studios?</summary>
+              <div class="answer">No. Beancan.gg is not affiliated with Valve Corporation, Facepunch Studios, or any game publisher/platform. Any trademarks belong to their respective owners.</div>
+            </details>
+            <details class="qa">
+              <summary>Are there any geographic restrictions?</summary>
+              <div class="answer">Availability can vary by location due to local laws and compliance requirements. If access is restricted in your region, some features may be blocked.</div>
+            </details>
+          </section>
+
+          <section class="section" id="getting-started" aria-label="Getting Started">
+            <div class="sectionHead">
+              <div class="sectionDot" aria-hidden="true">•</div>
+              <div class="sectionTitle">Getting Started</div>
+            </div>
+            <details class="qa">
+              <summary>How do I create an account?</summary>
+              <div class="answer">Click the “Sign in” button on the top right and follow the login flow. Once authenticated, your account is created automatically and you can access your profile and game features.</div>
+            </details>
+            <details class="qa">
+              <summary>What are the account eligibility requirements?</summary>
+              <div class="answer">You must meet the minimum age requirement shown on the site and comply with the Terms of Service. Additional restrictions may apply depending on your region.</div>
+            </details>
+            <details class="qa">
+              <summary>How do I start playing?</summary>
+              <div class="answer">After signing in, deposit items/credit (if required), then choose a game mode from the navigation (Coinflip, Jackpot, Upgrader, etc.). Create a game or join an existing one.</div>
+            </details>
+          </section>
+
+          <section class="section" id="games" aria-label="Games &amp; Gameplay">
+            <div class="sectionHead">
+              <div class="sectionDot" aria-hidden="true">•</div>
+              <div class="sectionTitle">Games &amp; Gameplay</div>
+            </div>
+            <details class="qa">
+              <summary>How does Coinflip work?</summary>
+              <div class="answer">Coinflip is a head-to-head game where two sides stake items/credit. The winner is chosen by a provably fair roll, and the winner receives the combined pot (minus any applicable fees).</div>
+            </details>
+            <details class="qa">
+              <summary>How does Jackpot work?</summary>
+              <div class="answer">Jackpot is a multiplayer pot. Players deposit items/credit into a round; the more value you contribute, the higher your chance to win. At the end of the round, one winner is selected to receive the pot.</div>
+            </details>
+            <details class="qa">
+              <summary>How does the Upgrader work?</summary>
+              <div class="answer">Upgrader lets you risk an item/amount for a chance to “upgrade” into a higher value target. You set the win chance (or select a target), then the provably fair system determines the result.</div>
+            </details>
+            <details class="qa">
+              <summary>Are there game limits (min/max)?</summary>
+              <div class="answer">Most game modes have minimum and maximum deposit limits to keep games fair and prevent abuse. Limits can vary by mode and may change over time.</div>
+            </details>
+          </section>
+
+          <section class="section" id="provably-fair" aria-label="Provably Fair System">
+            <div class="sectionHead">
+              <div class="sectionDot" aria-hidden="true">•</div>
+              <div class="sectionTitle">Provably Fair System</div>
+            </div>
+            <details class="qa">
+              <summary>What does “provably fair” mean?</summary>
+              <div class="answer">“Provably fair” means you can verify the outcome of a game using cryptographic values (like seeds and nonces). This makes it possible to confirm that results were not changed after you joined a game.</div>
+            </details>
+            <details class="qa">
+              <summary>How do I verify a result?</summary>
+              <div class="answer">Open the “Provably Fair” panel (usually near the game controls) and follow the verification steps shown there. You’ll compare the revealed server seed against its hash and reproduce the roll using the client seed and nonce.</div>
+            </details>
+            <details class="qa">
+              <summary>Can the site change the outcome?</summary>
+              <div class="answer">With a properly implemented provably fair setup, the server seed is committed (hashed) before play, and only revealed after—making tampering detectable when you verify.</div>
+            </details>
+          </section>
+
+          <section class="section" id="deposits" aria-label="Deposits &amp; Withdrawals">
+            <div class="sectionHead">
+              <div class="sectionDot" aria-hidden="true">•</div>
+              <div class="sectionTitle">Deposits &amp; Withdrawals</div>
+            </div>
+            <details class="qa">
+              <summary>How do deposits work?</summary>
+              <div class="answer">Deposits add value to your account balance so you can join games. Depending on the platform setup, deposits may be made using virtual items and/or other supported payment methods.</div>
+            </details>
+            <details class="qa">
+              <summary>How do withdrawals work?</summary>
+              <div class="answer">Withdrawals let you redeem your balance back into supported items/credit. If withdrawals are enabled, you’ll select items and confirm the withdrawal. Processing time can vary.</div>
+            </details>
+            <details class="qa">
+              <summary>Why is my deposit/withdrawal pending?</summary>
+              <div class="answer">Transactions can be delayed by network congestion, verification checks, or temporary system limits. If a transaction stays pending for an unusual amount of time, contact support with the transaction details.</div>
+            </details>
+          </section>
+
+          <section class="section" id="account-security" aria-label="Account &amp; Security">
+            <div class="sectionHead">
+              <div class="sectionDot" aria-hidden="true">•</div>
+              <div class="sectionTitle">Account &amp; Security</div>
+            </div>
+            <details class="qa">
+              <summary>How do I keep my account secure?</summary>
+              <div class="answer">Use a strong password on your connected account, enable 2FA where available, and never share login codes. Only sign in on trusted devices and avoid suspicious links.</div>
+            </details>
+            <details class="qa">
+              <summary>What should I do if I think my account is compromised?</summary>
+              <div class="answer">Change your password (on the connected login provider), revoke unknown sessions, and contact support immediately with any relevant details. Avoid making deposits/withdrawals until resolved.</div>
+            </details>
+          </section>
+
+          <section class="section" id="legal" aria-label="Legal &amp; Responsible Gaming">
+            <div class="sectionHead">
+              <div class="sectionDot" aria-hidden="true">•</div>
+              <div class="sectionTitle">Legal &amp; Responsible Gaming</div>
+            </div>
+            <details class="qa">
+              <summary>Responsible gaming</summary>
+              <div class="answer">Only play what you can afford to lose, take breaks, and set personal limits. If gaming is affecting you negatively, consider seeking help through responsible gaming resources.</div>
+            </details>
+            <details class="qa">
+              <summary>Age requirement</summary>
+              <div class="answer">You must meet the minimum age requirement stated on the site. Access may be restricted or accounts may be closed if underage use is detected.</div>
+            </details>
+          </section>
+
+          <section class="section" id="support" aria-label="Support &amp; Disputes">
+            <div class="sectionHead">
+              <div class="sectionDot" aria-hidden="true">•</div>
+              <div class="sectionTitle">Support &amp; Disputes</div>
+            </div>
+            <details class="qa">
+              <summary>How can I contact support?</summary>
+              <div class="answer">Use the support/contact options shown on the site (for example, the support button or Discord). Include screenshots and transaction/game IDs when possible.</div>
+            </details>
+            <details class="qa">
+              <summary>I have a dispute about a game result—what do I do?</summary>
+              <div class="answer">First verify the round using the Provably Fair tools. If something still looks wrong, contact support with the game ID and verification details so they can investigate.</div>
+            </details>
+          </section>
+
+          <section class="section" id="terms" aria-label="Terms of Service">
+            <div class="sectionHead">
+              <div class="sectionDot" aria-hidden="true">•</div>
+              <div class="sectionTitle">Terms of Service</div>
+            </div>
+            <details class="qa" open="">
+              <summary>Where can I read the Terms of Service?</summary>
+              <div class="answer">This static demo page shows the layout only. Replace this section with your full Terms of Service text or link to your published Terms page.</div>
+            </details>
+          </section>
+
+          <section class="section" id="privacy" aria-label="Privacy Policy">
+            <div class="sectionHead">
+              <div class="sectionDot" aria-hidden="true">•</div>
+              <div class="sectionTitle">Privacy Policy</div>
+            </div>
+            <details class="qa" open="">
+              <summary>Where can I read the Privacy Policy?</summary>
+              <div class="answer">This static demo page shows the layout only. Replace this section with your full Privacy Policy text or link to your published Privacy Policy page.</div>
+            </details>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      (function () {
+        // Category pills: scroll to section + set active
+        var buttons = Array.prototype.slice.call(document.querySelectorAll(".catBtn[data-target]"));
+        function setActive(targetId) {
+          buttons.forEach(function (b) {
+            b.classList.toggle("active", b.getAttribute("data-target") === targetId);
+          });
+        }
+        buttons.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var id = btn.getAttribute("data-target");
+            var el = document.getElementById(id);
+            if (!el) return;
+            setActive(id);
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+        });
+
+        // Accordion: keep one open per section
+        Array.prototype.slice.call(document.querySelectorAll("section.section")).forEach(function (sec) {
+          sec.addEventListener("toggle", function (e) {
+            var t = e.target;
+            if (!t || !t.matches || !t.matches("details.qa")) return;
+            if (!t.open) return;
+            Array.prototype.slice.call(sec.querySelectorAll("details.qa")).forEach(function (d) {
+              if (d !== t) d.open = false;
+            });
+          }, true);
+        });
+      })();
+    </script>
+  
+
+<veepn-lock-screen><template shadowrootmode="open"><style>html{box-sizing:border-box;text-size-adjust:100%;word-break:normal;tab-size:4}*,:before,:after{background-repeat:no-repeat;box-sizing:border-box}:before,:after{text-decoration:inherit;vertical-align:inherit}*{padding:0;margin:0}hr{overflow:visible;height:0;color:inherit;border:0;border-top:1px solid}details,main{display:block}summary{display:list-item}small{font-size:80%}[hidden]{display:none!important}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}a{background-color:transparent}a:active,a:hover{outline-width:0}code,kbd,pre,samp{font-family:monospace}pre{font-size:1em}b,strong{font-weight:bolder}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{border-color:inherit;text-indent:0}iframe{border-style:none}input{border-radius:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-decoration{appearance:none}textarea{overflow:auto;resize:vertical}button,input,optgroup,select,textarea{font:inherit;color:inherit}optgroup{font-weight:700}button{overflow:visible}button,select{text-transform:none}button,[type=button],[type=reset],[type=submit],[role=button]{cursor:pointer}button::-moz-focus-inner,[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner{border-style:none;padding:0}button,html [type=button],[type=reset],[type=submit]{appearance:auto}button,input,select,textarea{background-color:transparent;border-style:none}button:-moz-focusring,[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner{outline:1px dotted ButtonText}select{appearance:none}a:focus,button:focus,input:focus,select:focus,textarea:focus{outline-width:0}select::-ms-expand{display:none}select::-ms-value{color:currentcolor}legend{border:0;color:inherit;display:table;white-space:normal;max-width:100%}::-webkit-file-upload-button{appearance:auto;color:inherit;font:inherit}[disabled]{cursor:default}img{border-style:none}progress{vertical-align:baseline}[aria-busy=true]{cursor:progress}[aria-controls]{cursor:pointer}[aria-disabled=true]{cursor:default}ul,ol{list-style-type:none}figure{margin:0}@keyframes slide-in{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.gradient-blue{background:radial-gradient(106.41% 128.47% at 50.15% 128.47%,#23abff,#3066ff)}.gradient-green{background:radial-gradient(92.26% 118.88% at 50.15% .13%,#00c3c3,#00aab3)}.gradient-purple{background:radial-gradient(165.12% 115.56% at 50.15% .13%,#a15aff,#00a0eb)}.bg-blue{background-color:#f2f5ff}.bg-purple{background-color:#f7f0ff}.bg-green{background-color:#ebffed}.lock-screen{font-family:FigtreeVF,sans-serif;letter-spacing:normal;position:fixed;z-index:2147483638;right:24px;bottom:24px;width:327px;border-radius:24px;overflow:hidden;box-shadow:0 24px 32px #00000014;animation:slide-in .3s ease-in-out forwards}.lock-screen__content{position:relative;padding:24px 24px 64px}.lock-screen__close{position:absolute;top:16px;right:16px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;opacity:.5}.lock-screen__label{height:26px;width:fit-content;border-radius:50px;background-color:#fff3;padding-inline:16px;display:flex;align-items:center;justify-content:center;gap:8px;color:#fff;font-size:12px;line-height:18px;margin:-8px auto 16px}.lock-screen__title{color:#fff;text-align:center;font-size:20px;line-height:28px;font-weight:600;margin-bottom:8px}.lock-screen__description{color:#f5f6f7;text-align:center;font-size:14px;line-height:20px}.lock-screen__description b{font-weight:600}.lock-screen__card{position:relative;z-index:1;margin-top:-44px;background-color:#fff;border-radius:24px;padding:32px 20px 20px}.lock-screen__inner{margin-bottom:24px}.lock-screen__submit{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:700;font-size:16px;height:40px;width:100%;border-radius:12px;padding-inline:16px;background-color:#f70;color:#fff;margin-bottom:16px}.lock-screen__skip{display:flex;align-items:center;justify-content:center;font-size:14px;line-height:20px;color:#82829c;margin-inline:auto}.price-card{border:1px solid #f2f2fc;background:linear-gradient(254.14deg,#fafbff .04%,#f5f8ff 100.04%);border-radius:24px;padding:24px 28px}.price-card__label{color:#4a5764;text-align:center;font-size:14px;line-height:20px;text-transform:uppercase;margin-bottom:16px}.price-card__price{display:flex;justify-content:center;align-items:flex-start;column-gap:2px;margin-bottom:12px}.price-card__currency{color:#515478;font-size:18px;line-height:28px}.price-card__number{color:#14142a;text-align:center;font-size:64px;line-height:54px}.price-card__wrap{display:flex;flex-direction:column}.price-card__decimal{color:#515478;font-size:18px;line-height:28px;font-weight:600}.price-card__period{color:#515478;font-size:14px;line-height:20px;margin-top:-6px}.price-card__discount{position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:12px}.price-card__discount-divider{position:absolute;z-index:0;top:50%;left:0;width:100%;height:1px;background-color:#dbe2f9;transform:translateY(-50%)}.price-card__discount-icon{position:absolute;z-index:1;top:50%;left:50%;transform:translate(-50%,-50%)}.price-card__discount-text{position:relative;z-index:2;color:#fff;font-size:12px;font-weight:600;line-height:18px}.price-card__features{display:flex;align-items:center;justify-content:center;column-gap:16px}.price-card__feature{color:#222e3a;font-size:14px;line-height:20px;display:flex;align-items:center;gap:6px}.price-card__feature:before{content:"";display:block;width:4px;height:4px;background-color:#20df9e;border-radius:50%;flex-shrink:0}.features-list{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.features-list__item{display:flex;flex-direction:column;align-items:center;gap:6px}.features-list__icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center}.features-list__text{color:#293a53;text-align:center;font-size:16px;line-height:24px;letter-spacing:-.1px}</style></template><style>@font-face{font-family:FigtreeVF;src:url(chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/fonts/FigtreeVF.woff2) format("woff2 supports variations"),url(chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/fonts/FigtreeVF.woff2) format("woff2-variations");font-weight:100 1000;font-display:swap}</style></veepn-lock-screen></body></html>

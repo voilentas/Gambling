@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)http://localhost:8000/jackpot_fixed.html?tier=low -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style>
+    
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Jackpot (static mock)</title>
+    <style>
+      :root{
+        --bg:#070a0f;
+        --border:rgba(255,255,255,.08);
+        --text:rgba(255,255,255,.92);
+        --muted:rgba(255,255,255,.60);
+        --muted2:rgba(255,255,255,.42);
+        --green:#27c46b;
+        --orange:#ea7b2e;
+        --orange2:#c96020;
+        --shadow:0 16px 36px rgba(0,0,0,.45);
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{
+        margin:0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+        background: #05070a;
+        color:var(--text);
+        overflow:hidden;
+        position:relative;
+      }
+
+      /* Blurry background image (from assets/bg.jpg) */
+      body::before{
+        content:"";
+        position:fixed;
+        inset:0;
+        background: url("./assets/bg.jpg") center/cover no-repeat;
+        filter: blur(12px) brightness(0.45);
+        transform: scale(1.06);
+        z-index:-2;
+      }
+      body::after{
+        content:"";
+        position:fixed;
+        inset:0;
+        background:
+          radial-gradient(1200px 700px at 55% 42%, rgba(255,255,255,.06), rgba(255,255,255,0) 55%),
+          radial-gradient(900px 500px at 65% 58%, rgba(234,123,46,.18), rgba(234,123,46,0) 55%),
+          linear-gradient(180deg, rgba(5,7,10,.65), rgba(7,10,15,.88) 55%, rgba(6,8,11,.92));
+        z-index:-1;
+      }
+
+      /* Top bar */
+      .topbar{
+        position:sticky;
+        top:0;
+        z-index:10;
+        height:56px;
+        display:flex;
+        align-items:center;
+        border-bottom:1px solid var(--border);
+        background: rgba(7,10,15,.85);
+        backdrop-filter: blur(10px);
+      }
+      .topbar .inner{
+        width:100%;
+        max-width:none;
+        margin:0;
+        padding:0 10px;
+        display:flex;
+        align-items:center;
+        gap:18px;
+      }
+      .brand{display:flex;align-items:center;user-select:none;white-space:nowrap}
+      .brand img{
+        height:28px;
+        width:auto;
+        display:block;
+        object-fit:contain;
+        filter: drop-shadow(0 2px 10px rgba(0,0,0,.55));
+      }
+      @media (min-width: 768px){
+        .brand img{ height:44px; }
+      }
+      .nav{display:flex;align-items:center;gap:18px;font-size:13px;color:var(--muted);flex:1;overflow:hidden}
+      .nav a{color:inherit;text-decoration:none;padding:6px 2px}
+      .nav a.active{color:var(--text)}
+      .nav a:hover{color:rgba(255,255,255,.80)}
+      .actions{display:flex;align-items:center;gap:10px}
+      .btn{height:28px;padding:0 12px;border-radius:999px;border:1px solid transparent;display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;cursor:pointer;user-select:none}
+      .btn.green{background: rgba(39,196,107,.95);color:#07120b;box-shadow:0 10px 22px rgba(39,196,107,.18)}
+      .btn.orange{background: linear-gradient(135deg, var(--orange), var(--orange2));color:#fff;box-shadow:0 10px 22px rgba(234,123,46,.18)}
+      .rbx{width:14px;height:14px;display:inline-block}
+      .rbx svg{width:14px;height:14px;display:block}
+
+      /* Layout */
+      .layout{height: calc(100vh - 56px);display:flex;gap:14px;padding:12px 12px 14px}
+
+      /* Left chat */
+      .chat{
+        width:320px;min-width:280px;max-width:360px;
+        border:1px solid var(--border);
+        background: linear-gradient(180deg, rgba(12,18,27,.95), rgba(10,14,20,.92));
+        border-radius: 10px;overflow:hidden;box-shadow: var(--shadow);
+        display:flex;flex-direction:column;
+      }
+      .chatHeader{padding:10px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);font-size:12px;color:var(--muted)}
+      .chatHeader .left{display:flex; gap:10px; align-items:center}
+      .pill{background: rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);padding:4px 8px;border-radius:999px;color:rgba(255,255,255,.72);font-weight:700;font-size:11px}
+      .chatBody{padding:10px 10px 8px;overflow:auto;display:flex;flex-direction:column;gap:8px}
+      .chatMessage{display:flex;gap:10px;align-items:flex-start}
+      .avatar{width:26px;height:26px;border-radius:999px;background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.10);flex:0 0 auto}
+      .msg{font-size:12px;line-height:1.25;color:rgba(255,255,255,.82)}
+      .msg .name{font-weight:800;color:#ff9b3b;margin-right:6px}
+      .msg .muted{color:var(--muted2)}
+      .chatFooter{margin-top:auto;padding:10px;border-top:1px solid var(--border);display:flex;gap:10px;align-items:center;color:var(--muted2);font-size:12px}
+      .chatInput{flex:1;height:32px;border-radius:10px;border:1px solid rgba(255,255,255,.08);background: rgba(0,0,0,.22);padding:0 10px;display:flex;align-items:center;justify-content:space-between}
+      .chatInput span{color:rgba(255,255,255,.35)}
+
+      /* Main */
+      .main{
+        flex:1;border:1px solid var(--border);border-radius: 12px;
+        background:
+          radial-gradient(900px 500px at 45% 55%, rgba(255,255,255,.06), rgba(255,255,255,0) 55%),
+          linear-gradient(180deg, rgba(10,14,18,.88), rgba(8,10,13,.82));
+        box-shadow: var(--shadow);
+        overflow:hidden;
+      }
+      .mainInner{height:100%;padding:16px 18px;display:flex;flex-direction:column;gap:14px}
+      h1{margin:0;font-size:26px;font-weight:900;letter-spacing:.2px}
+
+      .subRow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+      .tabs{display:flex;gap:8px}
+      .tab{
+        height:30px;padding:0 12px;border-radius:999px;
+        border:1px solid rgba(255,255,255,.10);
+        background: rgba(255,255,255,.03);
+        color:rgba(255,255,255,.72);
+        font-size:12px;font-weight:800;cursor:pointer;
+      }
+      .tab.active{
+        background: rgba(234,123,46,.18);
+        border-color: rgba(234,123,46,.35);
+        color:rgba(255,255,255,.92);
+      }
+      .chip{
+        height:32px;display:flex;align-items:center;padding:0 12px;border-radius:10px;
+        border:1px solid rgba(255,255,255,.09);
+        background: rgba(255,255,255,.03);
+        color:rgba(255,255,255,.70);
+        font-size:12px;gap:8px;
+      }
+      .dot{width:8px;height:8px;border-radius:999px;background: rgba(255,255,255,.28)}
+      .btnPrimary{
+        height:32px;border-radius:10px;border:1px solid rgba(255,255,255,.10);
+        padding:0 14px;background: linear-gradient(135deg, var(--orange), var(--orange2));
+        color:white;font-weight:900;font-size:12px;cursor:pointer;
+      }
+
+      .panel{
+        border:1px solid rgba(255,255,255,.10);
+        background: rgba(255,255,255,.03);
+        border-radius: 14px;
+        padding:14px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:14px;
+      }
+      .panel h2{margin:0;font-size:14px;font-weight:900}
+      .panel p{margin:4px 0 0;color:rgba(255,255,255,.55);font-size:12px}
+      .metric{display:flex;gap:10px;align-items:center;color:rgba(255,255,255,.65);font-size:12px}
+      .badge{
+        padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.10);
+        background: rgba(0,0,0,.20);
+        font-weight:900;font-size:11px;color:rgba(255,255,255,.78);
+      }
+
+      .empty{
+        margin-top:auto;margin-bottom:24px;
+        display:flex;align-items:center;justify-content:center;
+        min-height:340px;position:relative;
+      }
+      .empty::before{
+        content:"";position:absolute;inset:-40px -20px -40px -20px;
+        background:
+          radial-gradient(340px 220px at 52% 45%, rgba(255,255,255,.10), rgba(255,255,255,0) 65%),
+          radial-gradient(480px 260px at 62% 58%, rgba(234,123,46,.22), rgba(234,123,46,0) 65%);
+        filter: blur(14px);opacity:.55;pointer-events:none;
+      }
+      .emptyCard{position:relative;text-align:center;padding:18px 22px;border-radius: 18px}
+      .emptyTitle{margin:0;font-weight:900;font-size:14px;color:rgba(255,255,255,.92)}
+      .emptySub{margin:6px 0 14px;font-size:12px;color:rgba(255,255,255,.55)}
+      .btnBig{
+        height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.10);
+        padding:0 14px;background: linear-gradient(135deg, var(--orange), var(--orange2));
+        color:white;font-weight:900;font-size:12px;cursor:pointer;
+      }
+
+      /* Floating support button */
+      .support{
+        position:fixed;right:18px;bottom:18px;width:54px;height:54px;border-radius:999px;border:none;cursor:pointer;
+        background: linear-gradient(135deg, var(--orange), var(--orange2));
+        box-shadow:0 12px 28px rgba(234,123,46,.28), 0 4px 12px rgba(0,0,0,.40);
+        display:grid;place-items:center;
+      }
+      .support svg{width:22px;height:22px}
+
+      @media (max-width: 1060px){ .chat{display:none;} }
+      @media (max-width: 720px){ .nav{display:none;} }
+
+      /* scrollbar */
+      .chatBody::-webkit-scrollbar{width:8px}
+      .chatBody::-webkit-scrollbar-track{background:transparent}
+      .chatBody::-webkit-scrollbar-thumb{background:rgba(255,255,255,.10); border-radius:999px}
+      .chatBody{scrollbar-width:thin; scrollbar-color:rgba(255,255,255,.12) transparent}
+    </style>
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div class="inner">
+        <a class="brand" aria-label="Beancan.gg" href="http://localhost:8000/coinflip_fixed.html">
+          <img src="./Jackpot (static mock)_files/logo.webp" alt="Beancan.gg">
+        </a>
+
+        <nav class="nav" aria-label="Primary">
+          <a href="http://localhost:8000/coinflip_fixed.html">Coinflip</a>
+          <a id="nav-jp-low" href="http://localhost:8000/jackpot_fixed.html?tier=low" class="active">Jackpot Low</a>
+          <a id="nav-jp-high" href="http://localhost:8000/jackpot_fixed.html?tier=high">Jackpot High</a>
+          <a href="http://localhost:8000/upgrader_fixed.html">Upgrader</a>
+          <a href="http://localhost:8000/bang_fixed.html">Bang</a>
+          <a href="http://localhost:8000/affiliates_fixed.html" style="opacity:.75">Affiliates</a>
+          <a href="http://localhost:8000/faq_fixed.html" style="opacity:.75">FAQ</a>
+          <a href="http://localhost:8000/leaderboard_fixed.html" style="opacity:.75">Leaderboard</a>
+        </nav>
+
+        <div class="actions">
+          <button class="btn green" type="button">Free Coinflip</button>
+          <button class="btn orange" type="button" aria-label="Sign in">
+            <span class="rbx" aria-hidden="true">
+              <svg viewBox="0 0 100 100" fill="none">
+                <rect x="22" y="22" width="56" height="56" transform="rotate(45 50 50)" fill="rgba(255,255,255,.92)"></rect>
+                <rect x="44" y="44" width="12" height="12" transform="rotate(45 50 50)" fill="rgba(234,123,46,.95)"></rect>
+              </svg>
+            </span>
+            Sign in
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="chat" aria-label="Live chat (mock)">
+        <div class="chatHeader">
+          <div class="left">
+            <strong style="color:rgba(255,255,255,.86)">Live Chat</strong>
+            <span class="pill">English</span>
+          </div>
+          <span style="opacity:.55">⚙</span>
+        </div>
+
+        <div class="chatBody">
+          <div class="chatMessage"><div class="avatar"></div><div class="msg"><span class="name">Beancan.gg</span><span class="muted">Join our Discord at</span> discord.gg/beancan</div></div>
+          <div class="chatMessage"><div class="avatar"></div><div class="msg"><span class="name">Beancan.gg</span> <span class="muted">Jackpot is live — deposit skins to enter!</span></div></div>
+          <div class="chatMessage"><div class="avatar"></div><div class="msg"><span class="name">Beancan.gg</span> <span class="muted">Tip: higher value = higher winning chance.</span></div></div>
+          <div class="chatMessage"><div class="avatar"></div><div class="msg"><span class="name">Beancan.gg</span> <span class="muted">Provably fair results for every round.</span></div></div>
+        </div>
+
+        <div class="chatFooter">
+          <div class="chatInput" role="textbox" aria-label="Chat input (disabled)">
+            <span>Sign in to chat</span>
+            <span style="opacity:.45">↩</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="mainInner">
+          <div class="subRow">
+            <div>
+              <h1>Jackpot</h1>
+              <div style="margin-top:6px;color:rgba(255,255,255,.55);font-size:12px">
+                Multi-player pot. Your deposit value decides your share of the roll.
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center">
+              <div class="chip"><span class="dot" aria-hidden="true"></span> Provably Fair</div>
+              <button class="btnPrimary" type="button">＋ Deposit Skins</button>
+            </div>
+          </div>
+
+          <div class="subRow">
+            <div class="tabs" aria-label="Jackpot tiers">
+              <button class="tab active" id="tab-low" type="button">Low</button>
+              <button class="tab" id="tab-high" type="button">High</button>
+            </div>
+            <div class="metric">
+              <span class="badge" id="tier-badge">LOW</span>
+              <span id="tier-range">Min $0.50 • Max $50.00</span>
+            </div>
+          </div>
+
+          <section class="panel" aria-label="Current round (mock)">
+            <div>
+              <h2 id="round-title">Low Jackpot Round</h2>
+              <p id="round-sub">Low stakes pot — start the round by depositing skins.</p>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center">
+              <div class="badge">Pot: $0.00</div>
+              <div class="badge">Players: 0/20</div>
+              <div class="badge">Time: —</div>
+            </div>
+          </section>
+
+          <section class="empty" aria-label="Empty state">
+            <div class="emptyCard">
+              <p class="emptyTitle">No active jackpot round right now</p>
+              <p class="emptySub">Be the first to start a pot!</p>
+              <button class="btnBig" type="button">＋ Deposit Skins</button>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <button class="support" type="button" aria-label="Support">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+        <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"></path>
+        <path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+      </svg>
+    </button>
+
+    <script>
+      (function () {
+        function getTier() {
+          try { return (new URLSearchParams(location.search).get("tier") || "low").toLowerCase(); }
+          catch(e) { return "low"; }
+        }
+        function setTier(tier) {
+          var isHigh = tier === "high";
+          document.getElementById("tab-low").classList.toggle("active", !isHigh);
+          document.getElementById("tab-high").classList.toggle("active", isHigh);
+          document.getElementById("nav-jp-low").classList.toggle("active", !isHigh);
+          document.getElementById("nav-jp-high").classList.toggle("active", isHigh);
+          document.getElementById("tier-badge").textContent = isHigh ? "HIGH" : "LOW";
+          document.getElementById("tier-range").textContent = isHigh ? "Min $50.00 • No Max" : "Min $0.50 • Max $50.00";
+          document.getElementById("round-title").textContent = (isHigh ? "High" : "Low") + " Jackpot Round";
+          document.getElementById("round-sub").textContent = isHigh
+            ? "High stakes pot — deposit bigger items to enter."
+            : "Low stakes pot — start the round by depositing skins.";
+        }
+
+        var tier = getTier();
+        setTier(tier);
+        document.getElementById("tab-low").addEventListener("click", function(){ location.search = "?tier=low"; });
+        document.getElementById("tab-high").addEventListener("click", function(){ location.search = "?tier=high"; });
+      })();
+    </script>
+  
+
+<veepn-lock-screen><template shadowrootmode="open"><style>html{box-sizing:border-box;text-size-adjust:100%;word-break:normal;tab-size:4}*,:before,:after{background-repeat:no-repeat;box-sizing:border-box}:before,:after{text-decoration:inherit;vertical-align:inherit}*{padding:0;margin:0}hr{overflow:visible;height:0;color:inherit;border:0;border-top:1px solid}details,main{display:block}summary{display:list-item}small{font-size:80%}[hidden]{display:none!important}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}a{background-color:transparent}a:active,a:hover{outline-width:0}code,kbd,pre,samp{font-family:monospace}pre{font-size:1em}b,strong{font-weight:bolder}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{border-color:inherit;text-indent:0}iframe{border-style:none}input{border-radius:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-decoration{appearance:none}textarea{overflow:auto;resize:vertical}button,input,optgroup,select,textarea{font:inherit;color:inherit}optgroup{font-weight:700}button{overflow:visible}button,select{text-transform:none}button,[type=button],[type=reset],[type=submit],[role=button]{cursor:pointer}button::-moz-focus-inner,[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner{border-style:none;padding:0}button,html [type=button],[type=reset],[type=submit]{appearance:auto}button,input,select,textarea{background-color:transparent;border-style:none}button:-moz-focusring,[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner{outline:1px dotted ButtonText}select{appearance:none}a:focus,button:focus,input:focus,select:focus,textarea:focus{outline-width:0}select::-ms-expand{display:none}select::-ms-value{color:currentcolor}legend{border:0;color:inherit;display:table;white-space:normal;max-width:100%}::-webkit-file-upload-button{appearance:auto;color:inherit;font:inherit}[disabled]{cursor:default}img{border-style:none}progress{vertical-align:baseline}[aria-busy=true]{cursor:progress}[aria-controls]{cursor:pointer}[aria-disabled=true]{cursor:default}ul,ol{list-style-type:none}figure{margin:0}@keyframes slide-in{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.gradient-blue{background:radial-gradient(106.41% 128.47% at 50.15% 128.47%,#23abff,#3066ff)}.gradient-green{background:radial-gradient(92.26% 118.88% at 50.15% .13%,#00c3c3,#00aab3)}.gradient-purple{background:radial-gradient(165.12% 115.56% at 50.15% .13%,#a15aff,#00a0eb)}.bg-blue{background-color:#f2f5ff}.bg-purple{background-color:#f7f0ff}.bg-green{background-color:#ebffed}.lock-screen{font-family:FigtreeVF,sans-serif;letter-spacing:normal;position:fixed;z-index:2147483638;right:24px;bottom:24px;width:327px;border-radius:24px;overflow:hidden;box-shadow:0 24px 32px #00000014;animation:slide-in .3s ease-in-out forwards}.lock-screen__content{position:relative;padding:24px 24px 64px}.lock-screen__close{position:absolute;top:16px;right:16px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;opacity:.5}.lock-screen__label{height:26px;width:fit-content;border-radius:50px;background-color:#fff3;padding-inline:16px;display:flex;align-items:center;justify-content:center;gap:8px;color:#fff;font-size:12px;line-height:18px;margin:-8px auto 16px}.lock-screen__title{color:#fff;text-align:center;font-size:20px;line-height:28px;font-weight:600;margin-bottom:8px}.lock-screen__description{color:#f5f6f7;text-align:center;font-size:14px;line-height:20px}.lock-screen__description b{font-weight:600}.lock-screen__card{position:relative;z-index:1;margin-top:-44px;background-color:#fff;border-radius:24px;padding:32px 20px 20px}.lock-screen__inner{margin-bottom:24px}.lock-screen__submit{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:700;font-size:16px;height:40px;width:100%;border-radius:12px;padding-inline:16px;background-color:#f70;color:#fff;margin-bottom:16px}.lock-screen__skip{display:flex;align-items:center;justify-content:center;font-size:14px;line-height:20px;color:#82829c;margin-inline:auto}.price-card{border:1px solid #f2f2fc;background:linear-gradient(254.14deg,#fafbff .04%,#f5f8ff 100.04%);border-radius:24px;padding:24px 28px}.price-card__label{color:#4a5764;text-align:center;font-size:14px;line-height:20px;text-transform:uppercase;margin-bottom:16px}.price-card__price{display:flex;justify-content:center;align-items:flex-start;column-gap:2px;margin-bottom:12px}.price-card__currency{color:#515478;font-size:18px;line-height:28px}.price-card__number{color:#14142a;text-align:center;font-size:64px;line-height:54px}.price-card__wrap{display:flex;flex-direction:column}.price-card__decimal{color:#515478;font-size:18px;line-height:28px;font-weight:600}.price-card__period{color:#515478;font-size:14px;line-height:20px;margin-top:-6px}.price-card__discount{position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:12px}.price-card__discount-divider{position:absolute;z-index:0;top:50%;left:0;width:100%;height:1px;background-color:#dbe2f9;transform:translateY(-50%)}.price-card__discount-icon{position:absolute;z-index:1;top:50%;left:50%;transform:translate(-50%,-50%)}.price-card__discount-text{position:relative;z-index:2;color:#fff;font-size:12px;font-weight:600;line-height:18px}.price-card__features{display:flex;align-items:center;justify-content:center;column-gap:16px}.price-card__feature{color:#222e3a;font-size:14px;line-height:20px;display:flex;align-items:center;gap:6px}.price-card__feature:before{content:"";display:block;width:4px;height:4px;background-color:#20df9e;border-radius:50%;flex-shrink:0}.features-list{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.features-list__item{display:flex;flex-direction:column;align-items:center;gap:6px}.features-list__icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center}.features-list__text{color:#293a53;text-align:center;font-size:16px;line-height:24px;letter-spacing:-.1px}</style></template><style>@font-face{font-family:FigtreeVF;src:url(chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/fonts/FigtreeVF.woff2) format("woff2 supports variations"),url(chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/fonts/FigtreeVF.woff2) format("woff2-variations");font-weight:100 1000;font-display:swap}</style></veepn-lock-screen></body></html>
